@@ -19,6 +19,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/home';
 
+    protected array $web_route_list=[
+        ['folder'=>'Auth','file'=>'auth_routes'],
+        ['folder'=>'DashBoard','file'=>'dashboard_routes'],
+        ['folder'=>'Patients','file'=>'patient_routes'],
+    ];
+
+
     /**
      * The controller namespace for the application.
      *
@@ -46,6 +53,14 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+
+          foreach ($this->web_route_list as  $file) {
+            Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path("routes/web/{$file['folder']}/{$file['file']}.php"));
+          }
+
+
         });
     }
 
